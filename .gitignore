@@ -3,3 +3,6 @@ vendor/
 composer.json
 composer.lock
 composer.phar
+yarn.lock
+node_modules/
+packages.microsoft.gpg
