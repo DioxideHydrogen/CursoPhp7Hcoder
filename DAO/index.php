@@ -22,6 +22,24 @@ require_once("config.php");
 
 // Usuário por login e senha
 // $usuario = new Usuario();
-// $usuario->login("user","12345");
-
+// $usuario->login("jose","1234567890");
 // echo $usuario; 
+
+// Insere usuários no sistema
+// $aluno = new Usuario();
+// $aluno->setDesLogin("aluno");
+// $aluno->setDesSenha("@lun0");
+// $aluno->insert();
+// echo $aluno;
+
+// Atualizando usuários
+// $usuario = new Usuario();
+// $usuario->setIdUsuario(3);
+// $usuario->update("professor","!@#$%¨&*");
+// echo "Atualizado";
+
+//Removendo usuários
+$usuario = new Usuario();
+$usuario->setIdUsuario(3);
+$usuario->delete();
+echo "DELETADO";

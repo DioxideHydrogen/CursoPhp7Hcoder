@@ -6,20 +6,20 @@ class Usuario{
     private $dessenha;
     private $dtcadastro;
 
-    public function setIdUsuario($var){
-        $this->idusuario = $var;
+    public function setIdUsuario($id){
+        $this->idusuario = $id;
     }
 
-    public function setDesLogin($var){
-        $this->deslogin = $var;
+    public function setDesLogin($login){
+        $this->deslogin = $login;
     }
 
-    public function setDesSenha($var){
-        $this->dessenha = $var;
+    public function setDesSenha($senha){
+        $this->dessenha = $senha;
     }
 
-    public function setDtCadastro($var){
-        $this->dtcadastro = $var;
+    public function setDtCadastro($data){
+        $this->dtcadastro = $data;
     }
 
     public function getIdUsuario(){
@@ -86,6 +86,41 @@ class Usuario{
         }
     }
 
+    
+    public function insert(){
+        $sql = new Sql();
+        $results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)",array(
+            ":LOGIN"=>$this->getDesLogin(),
+            ":PASSWORD"=>$this->getDesSenha()            
+        ));
+        $row = $results[0];
+        if(count($row) > 0){
+            $this->setIdUsuario($row["idusuarios"]);
+            $this->setDesLogin($row["deslogin"]);
+            $this->setDesSenha($row["dessenha"]);
+            $this->setDtCadastro(new DateTime($row["dtcadastro"]));
+        }
+    }
+
+
+    public function update($login,$password){
+        $this->setDesLogin($login);
+        $this->setDesSenha($password);
+        $sql = new Sql();
+        $results = $sql->query("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE idusuario = :ID",array(
+            ":LOGIN"=>$this->getDesLogin(),
+            ":PASSWORD"=>$this->getDesSenha(),
+            ":ID"=>$this->getIdUsuario()
+        ));
+    }
+
+    public function delete(){
+        $sql = new Sql();
+        $results = $sql->query("DELETE FROM tb_usuarios WHERE idusuario = :ID",array(
+            ":ID"=>$this->getIdUsuario()
+        ));
+        
+    }
     public function __toString(){
         return json_encode(array(
             "idusuarios" => $this->getIdUsuario(),
